@@ -1,11 +1,12 @@
 from Transaction import Transaction
-from BlockchainUtils import BlockchainUtils
+from Rpc import network
+from secrets import token_bytes
 import secrets
 import  binascii
 from sha3 import keccak_256
 from eth_account import Account
 from eth_keys import keys
-from eth_utils import decode_hex
+from eth_utils import decode_hex, from_wei 
 
 class Wallet():
     def __init__(self):
@@ -18,23 +19,15 @@ class Wallet():
         Private_Key = keys.PrivateKey(PK_bytes)
         self.keyPair['Private_Key'] = Private_Key
     #Generate Public key by using Ecdsa Private key 
-        pub_key = Private_Key.public_key
-        self.keyPair['Public_Key'] = pub_key.to_hex()
+        self.pub_key = Private_Key.public_key
+        self.keyPair['Public_Key'] = self.pub_key.to_hex()
+        
     #Generate Address key by using Hash Algo by using Ecdsa Public Key
-        self.keyPair['Address_Key'] =  pub_key.to_checksum_address()
+        self.keyPair['Address_Key'] =  self.pub_key.to_checksum_address()
 
     def sign(self,data):
         PK = self.keyPair['Private_Key']
         return Account.signTransaction(data,PK)  
-
-    @staticmethod
-    def signatureValid(self,data, signature, publicKeyString):
-        signature = binascii.unhexlify(signature)
-        dataHash = BlockchainUtils.hash(data)
-        publicKey = VerifyingKey.from_string(bytes.fromhex(publicKeyString), curve=SECP256k1)
-        signatureValid = publicKey.verify(signature, dataHash)
-        return signatureValid
-
 
     def privateKeyString(self):
             privateKeyString =  self.keyPair['Private_Key']
@@ -49,8 +42,18 @@ class Wallet():
         return AddressKeyString
 
 
-    def createTransaction(self,receiver , value,nonce,gasPriceHex):
-        transaction = Transaction(self.publicKeyString(),receiver , value, nonce , gasPriceHex)
-        signature = self.sign(transaction.payload())
-        #transaction.sign(signature)
+    def send_Transaction(self,receiver , value):
+        transaction = Transaction(self.AddressKeyString(),receiver , value)
+        signed_txn = self.sign(transaction.payload())
+        transaction.sign(signed_txn)
+        net = network(self.AddressKeyString())
+        receipt = net.send_transaction(signed_txn)
+        transaction.save_receipt(receipt)
         return transaction    
+
+    def check_balance(self):
+        net = network(self.AddressKeyString())
+        value = net.get_balance()
+        balance = int(value,16)
+        balance =from_wei(balance,'ether')
+        return balance
