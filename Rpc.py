@@ -8,8 +8,7 @@ from sha3 import keccak_256
 class network:
     def __init__(self,Address):
         self.session = requests.Session()
-        self.url = "https://rinkeby.infura.io/v3/baebc9ef83e04e45aba18fb46a5ed675"
-        #self.url = "https://rinkeby.infura.io/v3/"+Infura_id
+        self.url = "https://rinkeby.infura.io/v3/baebc9ef83e04e45aba18fb46a5ed675"  
         self.headers = {'Content-type': 'application/json'}
         self.Address =Address
 

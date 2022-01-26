@@ -8,13 +8,15 @@ from eth_account import Account
 from eth_keys import keys
 from eth_utils import decode_hex, from_wei 
 
-class Wallet():
-    def __init__(self):
+class Wallet:
+    def __init__(self,Pri_Key : None):
         self.keyPair = {}
-        PK="0x"+keccak_256(token_bytes(32)).hexdigest()
-        #PK_bytes = decode_hex(PK)
-        PK_bytes = decode_hex("0x25b11fa19c1a45a4ab70f034fe0134271c70c68316f732dfcc83b1e275c46968")
-        secrets256 = keccak_256(token_bytes(32)).hexdigest()
+        if(Pri_Key == None):
+            PK="0x"+keccak_256(token_bytes(32)).hexdigest()
+            PK_bytes = decode_hex(PK)
+        else:
+            PK_bytes = decode_hex(Pri_Key)
+        
     #Generate PK by ecdsa Algo for further requriments
         Private_Key = keys.PrivateKey(PK_bytes)
         self.keyPair['Private_Key'] = Private_Key
@@ -45,7 +47,7 @@ class Wallet():
     def send_Transaction(self,receiver , value):
         transaction = Transaction(self.AddressKeyString(),receiver , value)
         signed_txn = self.sign(transaction.payload())
-        transaction.sign(signed_txn)
+        transaction.sign(signed_txn.rawTransaction.hex())
         net = network(self.AddressKeyString())
         receipt = net.send_transaction(signed_txn)
         transaction.save_receipt(receipt)

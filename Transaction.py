@@ -26,7 +26,7 @@ class Transaction:
         return self.__dict__
 
     def sign(self, signature):
-        self.signature = signature
+        self.signature = str(signature)
     
     def save_receipt(self,receipt):
         self.receipt = receipt
@@ -36,11 +36,4 @@ class Transaction:
         keys_to_remove = ['senderAddressKey', 'type','id','timesamp','signature','receipt']
         for key in keys_to_remove:
             del jsonRepresentation[key]
-        print(jsonRepresentation)
         return jsonRepresentation
-
-    def equals(self, transaction):
-        if self.id == transaction.id:
-            return True
-        else:
-            return False
