@@ -9,7 +9,7 @@ from eth_keys import keys
 from eth_utils import decode_hex, from_wei 
 
 class Wallet:
-    def __init__(self,Pri_Key : None):
+    def __init__(self,Pri_Key = None):
         self.keyPair = {}
         if(Pri_Key == None):
             PK="0x"+keccak_256(token_bytes(32)).hexdigest()
