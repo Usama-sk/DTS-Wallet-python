@@ -1,17 +1,31 @@
 from Transaction import Transaction
 from Wallet import Wallet
+from configparser import ConfigParser
 
 
 if __name__ == '__main__':
 
-    receiver ="0x8cf0726Bc2f166c3F0427A199cCaDcf993B0Ff8A"
-    amount = 0.00001
-    wallet = Wallet()
+    # create Wallet code
+    wallet = Wallet() 
 
+    #Impoort Wallet code
+    # PK=""
+    # wallet = Wallet(PK) #Impoort Wallet
+
+    #Account Details
+    print(wallet.privateKeyString())
+    print(wallet.publicKeyString())
+    print(wallet.AddressKeyString())
+    print(wallet.check_balance())
+
+    #transaction code
     
-    #transaction = wallet.send_Transaction(receiver, amount )
-    Balance = wallet.check_balance()
+    receiver =""#Enter receiver Address 
+    amount = 0 # Enter ammount 
 
-    print(Balance)
-    #print(transaction.toJson())
+    # send transaction
+    transaction = wallet.send_Transaction(receiver, amount) 
+
+    # transaction Details
+    print(transaction.toJson())
 
