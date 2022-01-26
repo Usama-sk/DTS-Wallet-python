@@ -9,7 +9,7 @@ if __name__ == '__main__':
     wallet = Wallet() 
 
     #Impoort Wallet code
-    # PK="0x25b11fa19c1a45a4ab70f034fe0134271c70c68316f732dfcc83b1e275c46968"
+    # PK=""
     # wallet = Wallet(PK) #Impoort Wallet
 
     #Account Details
