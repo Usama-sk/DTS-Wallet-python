@@ -2,7 +2,7 @@
 
 Welcome to DTS WALLET 
 
-1:  Go into Rpc.py and change URL of infura set your network.
+1:  Go into Rpc.py and change URL of infura set your network , it work only in Rinkby network if you wanna use other network then chainge chainID value of network in Transaction.py.
 
 2:  Go into Main.py If you want to import wallet then uncomment 
     the import wallet code and comment create wallet code.
